@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Library Management System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- jQuery UI -->
+    <link href="https://code.jquery.com/ui/1.10.3/themes/redmond/jquery-ui.css" rel="stylesheet" media="screen">
+
+    <!-- Bootstrap -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- styles -->
+    <link href="css/styles.css" rel="stylesheet">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  </head>
+  <body>
+  	<div class="header">
+	     <div class="container">
+	        <div class="row">
+	           <div class="col-md-5">
+	              <!-- Logo -->
+	              <div class="logo">
+	                 <h1><a href="index.html">Library Management System</a></h1>
+	              </div>
+	           </div>
+	        </div>
+	     </div>
+	</div>
+
+    <div class="page-content">
+      <div class="row">
+      <div class="col-md-2">
+        <div class="sidebar content-box" style="display: block;">
+                <ul class="nav">
+                    <!-- Main menu -->
+                    <li class="current"><a href="index.html"><i class="glyphicon glyphicon-search"></i> Search </a></li>
+                    <li><a href="checkout.html"><i class="glyphicon glyphicon-chevron-up"></i> Checkout </a></li>
+                    <li><a href="checkin.html"><i class="glyphicon glyphicon-chevron-down"></i> Checkin </a></li>
+                    <li><a href="fines.html"><i class="glyphicon glyphicon-usd"></i> Fines </a></li>
+                    <li><a href="payfines.html"><i class="glyphicon glyphicon-usd"></i> Pay Fines </a></li>
+                    <li><a href="borrowers.html"><i class="glyphicon glyphicon-plus"></i> Add Borrowers </a></li>
+                </ul>
+             </div>
+      </div>
+      <div>
+
+        <div class="row">
+            <div class="col-md-6">
+              <div class="content-box-large">
+                
+                <div class="panel-body">
+                  <form class="form-horizontal" role="form">
+                  <div class="form-group">
+                    <label for="isbn" class="col-sm-2 control-label">ISBN</label>
+                    <div class="col-sm-10">
+                      <input type="isbn" class="form-control" id="isbn" placeholder="ISBN">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="cardno" class="col-sm-2 control-label">Card No</label>
+                    <div class="col-sm-10">
+                      <input type="cardno" class="form-control" id="cardno" placeholder="Card No">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                      <button type="submit" class="btn btn-primary button">Check Out</button>
+                    </div>
+                  </div>
+                </form>
+                </div>
+              </div>
+            </div>
+
+            <div id="result">
+                
+            </div>
+
+          </div>
+      </div>
+    </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('.panel-body').on('click','.button',function(e) {
+                e.preventDefault();
+
+                var body = {
+                    isbn: $("#isbn").val(),
+                    cardno: $("#cardno").val()
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://localhost:3000/borrowers/checkout',
+                    data: body,
+                    dataType: 'json',
+                    success: function(data) {
+                        var $label = $("<label>").text('Successfully checkedout book. Loan ID is: ');
+                        $('#result').empty();
+                        $('#result').append($label);
+                        $('#result').append('<div class="row">'+ data.loanId +'</div>');
+                    },
+                    error: function(data) {
+                        var $label = $("<label>").text(JSON.parse(data.responseText).message);
+                        $('#result').empty();
+                        $('#result').append($label);
+                    }
+                });
+            });
+        });
+    </script>
+
+  </body>
+</html>

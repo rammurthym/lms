@@ -1,0 +1,7 @@
+{
+	"mysql" : {
+		"db" : "lms",
+		"user" : "root",
+		"password" : "toor"
+	}
+}

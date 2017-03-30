@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "host": "localhost",
+        "user": "root",
+        "password" : "toor",
+        "database": "lms",
+        "driver": "mysql",
+        "multipleStatements": true
+    }
+}
